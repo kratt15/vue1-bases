@@ -1,54 +1,45 @@
 <script setup>
   import { ref } from 'vue'
-
+    let id = 0
   //variable
   const msg = ref('Tuto vue.js  ')
- const jour= ref(true)
+  const newItem = ref('')
+  const items = ref([
+    { id: id++, name: 'item 1' },
+    { id: id++, name: 'item 2' },
+    { id: id++, name: 'item 3' },
+    { id: id++, name: 'item 4' },
+    { id: id++, name: 'item 5' },
+  ])
   // function
-  const changer =()=>{
-    jour.value = !jour.value
+  const addItem = () => {
+    items.value.push({ id: id++, name: newItem.value })
+    newItem.value = ''
   }
+  const deleteItem = (id) => {
+    items.value = items.value.filter(item => item.id !== id)
+  }
+
 </script>
 
 <template>
 
 
-  <main id="main" :class="jour ? 'jour' : 'nuit'">
+  <main id="main">
         <h1 >{{ msg }}</h1>
-        <h2 v-show="jour">Jour</h2>
-        <h2 v-show="!jour">Nuit</h2>
-
-        <button @click="changer">Changer</button>
+       <ul>
+        <li v-for="item in items" :key="item.id">
+          {{ item.name }}
+          <button @click="deleteItem(item.id)">X</button>
+        </li>
+     
+       </ul>
+       <input type="text" v-model="newItem">
+       <button @click="addItem">Ajouter</button>
     
   </main>
 </template>
 
 <style scoped>
-#main{
-  background-color: #94ddf3;
-  position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.nuit{
-  background-color: #11233d !important;
-  position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: #fff;
-}
 
 </style>
